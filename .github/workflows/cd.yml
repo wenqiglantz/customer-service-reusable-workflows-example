@@ -18,7 +18,7 @@ jobs:
     permissions:
       id-token: write # need this for OIDC
       contents: read
-    uses: wenqiglantz/centralized-reusable-workflows/.github/workflows/java-api-deploy-to-ecs.yml@latest
+    uses: wenqiglantz/centralized-reusable-workflows/.github/workflows/java-api-deploy-to-ecs.yml@main
     with:
       env: ${{ github.event.inputs.environment }}
     secrets: inherit
