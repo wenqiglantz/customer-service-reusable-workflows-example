@@ -1,0 +1,24 @@
+# This CI workflow can be triggered by PR creation or code push in PR, or manually using workflow dispatch.
+
+name: CI workflow for building, testing microservice, and publishing image to ECR
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run the workflow against'
+        type: environment
+        required: true
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build-and-test:
+    permissions:
+      id-token: write # need this for OIDC
+      contents: read
+    uses: wenqiglantz/centralized-reusable-workflows/.github/workflows/java-maven-build-test.yml@latest
+    with:
+      env: ${{ github.event.inputs.environment }}
+    secrets: inherit

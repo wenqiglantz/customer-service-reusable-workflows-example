@@ -1,0 +1,25 @@
+# This CD workflow pulls the docker image from ECR and deploys it to the environment specified by the manual trigger
+
+name: CD workflow for deploying microservice to ECS Fargate
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run the workflow against'
+        type: environment
+        required: true
+  pull_request:
+    types: [closed]  # when PR is merged, CD will be triggered
+
+jobs:
+
+  deploy-to-ecs:
+    permissions:
+      id-token: write # need this for OIDC
+      contents: read
+    uses: wenqiglantz/centralized-reusable-workflows/.github/workflows/java-api-deploy-to-ecs.yml@latest
+    with:
+      env: ${{ github.event.inputs.environment }}
+    secrets: inherit
+
