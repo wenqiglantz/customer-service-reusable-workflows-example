@@ -22,7 +22,7 @@
         * `mvn clean install`
 
     * 2. Run the application:
-        * `java -jar target\customerservice-0.0.1-SNAPSHOT-exec.jar`
+        * `java -jar target\customer-service-exec.jar`
 
 
 * **C. Application Launch**
