@@ -18,7 +18,7 @@ jobs:
     permissions:
       id-token: write # need this for OIDC
       contents: read
-    uses: wenqiglantz/centralized-reusable-workflows/.github/workflows/java-maven-build-test.yml@main
+    uses: wenqiglantz/reusable-workflows-modules/.github/workflows/java-maven-build-test.yml@main
     with:
       env: ${{ github.event.inputs.environment }}
     secrets: inherit
