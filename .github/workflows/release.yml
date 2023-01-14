@@ -1,0 +1,14 @@
+# This workflow runs maven release to publish artifact to GitHub Packages
+
+name: Release workflow to run maven release to publish release version to GitHub Packages
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - release/*
+
+jobs:
+
+  release:
+    uses: wenqiglantz/reusable-workflows-modules/.github/workflows/release.yml@latest
