@@ -33,7 +33,7 @@
 
     <scm>
         <developerConnection>
-            scm:git:https://github.com/wenqiglantz/private-customer-service-reusable-workflows-example.git
+            scm:git:https://github.com/wenqiglantz/customer-service-reusable-workflows-example.git
         </developerConnection>
     </scm>
 
@@ -41,7 +41,7 @@
         <repository>
             <id>github</id>
             <name>GitHub</name>
-            <url>https://maven.pkg.github.com/wenqiglantz/private-customer-service-reusable-workflows-example</url>
+            <url>https://maven.pkg.github.com/wenqiglantz/customer-service-reusable-workflows-example</url>
         </repository>
     </distributionManagement>
 
