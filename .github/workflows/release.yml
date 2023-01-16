@@ -11,4 +11,4 @@ on:
 jobs:
 
   release:
-    uses: wenqiglantz/reusable-workflows-modules/.github/workflows/release.yml@latest
+    uses: wenqiglantz/reusable-workflows-modules/.github/workflows/release.yml@main
