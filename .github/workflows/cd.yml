@@ -30,7 +30,8 @@ jobs:
 
   deploy-to-ecs:
     needs: build-and-test
-    if: always() # always runs deploy job
+    #if: always() # always runs deploy job
+    if: (github.event.pull_request.merged || inputs.env != null) && github.actor != 'dependabot[bot]'
     permissions:
       id-token: write # need this for OIDC
       contents: read
