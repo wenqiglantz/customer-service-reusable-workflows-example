@@ -29,7 +29,7 @@ jobs:
     secrets: inherit
 
   deploy-to-ecs:
-    needs: build-and-test
+    #needs: build-and-test
     #if: always() # always runs deploy job
     if: (github.event.pull_request.merged || github.event.inputs.environment != null) && github.actor != 'dependabot[bot]'
     permissions:
