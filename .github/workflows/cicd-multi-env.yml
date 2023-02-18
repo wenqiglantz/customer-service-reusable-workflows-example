@@ -1,0 +1,48 @@
+name: Build and deploy to multiple environments
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run the workflow against'
+        type: environment
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+
+  build-and-test:
+    name: Build and test
+    permissions:
+      id-token: write # need this for OIDC
+      contents: read
+    uses: wenqiglantz/reusable-workflows-modules/.github/workflows/ci-stateful.yml@main
+    with:
+      env: dev
+    secrets: inherit
+    
+  deploy-to-dev:
+    name: Deploy to Dev
+    needs: [build-and-test]
+    permissions:
+      id-token: write # need this for OIDC
+      contents: read
+    uses: wenqiglantz/reusable-workflows-modules/.github/workflows/cd-stateful.yml@main
+    with:
+      env: dev
+      image-tag: ${{ needs.build-and-test.outputs.image-tag }}
+    secrets: inherit
+
+  deploy-to-qc:
+    name: Deploy to QC
+    needs: [build-and-test, deploy-to-dev]
+    permissions:
+      id-token: write # need this for OIDC
+      contents: read
+    uses: wenqiglantz/reusable-workflows-modules/.github/workflows/cd-stateful.yml@main
+    with:
+      env: qc
+      image-tag: ${{ needs.build-and-test.outputs.image-tag }}
+    secrets: inherit
