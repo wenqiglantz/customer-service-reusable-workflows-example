@@ -32,6 +32,6 @@ jobs:
           aws dynamodb query \
             --table-name deployment-tracking \
             --key-condition-expression "image_tag = :tag" \
-            --expression-attribute-values '{":tag": {"S": "${{ inputs.image-tag }}"}}'
+            --expression-attribute-values '{":tag": {"S": "${{ inputs.image-tag }}"}}' \
             --projection-expression "environment"
             
