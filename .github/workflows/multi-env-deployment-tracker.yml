@@ -23,8 +23,9 @@ jobs:
         with:
           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
-      - name: Retrieve data from deployment-tracking table
+      - name: Retrieve environment data from deployment-tracking table
         run: |
+          echo image tag ${{ inputs.image-tag }} has been deployed to the following environments:
           aws configure set region ${{ secrets.AWS_REGION }}
           aws configure set aws_access_key_id ${{ secrets.DYNAMODB_AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.DYNAMODB_AWS_SECRET_ACCESS_KEY }}
@@ -32,4 +33,5 @@ jobs:
             --table-name deployment-tracking \
             --key-condition-expression "image_tag = :tag" \
             --expression-attribute-values '{":tag": {"S": "${{ inputs.image-tag }}"}}'
+            --projection-expression "environment"
             
