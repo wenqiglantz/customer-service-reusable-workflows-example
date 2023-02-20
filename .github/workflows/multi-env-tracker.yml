@@ -25,7 +25,7 @@ jobs:
 
       - name: Get DynamoDB Item
         id: tracker
-        uses: mooyoul/dynamodb-actions@a92d2f55310d20e55185fca6ab76294e7a3de1d2 # v1.2.1
+        uses: mooyoul/dynamodb-actions@05013884a41c0972f87c4526da71939b36b86da1 # v1.2.3
         env:
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
