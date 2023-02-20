@@ -1,0 +1,35 @@
+name: Multi-env deployment tracker
+
+on:
+  workflow_dispatch:
+    inputs:
+      image-tag:
+        description: 'Image tag'
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+
+  deployment-tracker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@18bf8ad2ca49c14cbb28b91346d626ccfb00c518 
+        with:
+          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
+      - name: Retrieve data from deployment-tracking table
+        run: |
+          aws configure set region ${{ secrets.AWS_REGION }}
+          aws configure set aws_access_key_id ${{ secrets.DYNAMODB_AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.DYNAMODB_AWS_SECRET_ACCESS_KEY }}
+          aws dynamodb query \
+            --table-name deployment-tracking \
+            --key-condition-expression "image_tag = :tag" \
+            --expression-attribute-values '{":tag": {"S": "${{ inputs.image-tag }}"}}'
+            
