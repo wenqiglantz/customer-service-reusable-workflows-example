@@ -1,0 +1,48 @@
+name: Multi-env deployment tracker
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run the workflow against'
+        type: environment
+        required: true
+      image-tag:
+        description: 'Image tag'
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+
+  deployment-tracker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@18bf8ad2ca49c14cbb28b91346d626ccfb00c518 
+        with:
+          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
+      - name: Get DynamoDB Item
+        id: tracker
+        uses: mooyoul/dynamodb-actions@a92d2f55310d20e55185fca6ab76294e7a3de1d2 # v1.2.1
+        env:
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.DYNAMODB_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DYNAMODB_AWS_SECRET_ACCESS_KEY }}
+        with:
+          operation: get
+          region: ${{ secrets.AWS_REGION }}
+          table: deployment-tracking
+          key: |
+            { image_tag: "${{ inputs.image-tag }}" }
+            
+      - name: Print item
+        run: |
+          echo '${{ steps.tracker.outputs.item }}'
+     
