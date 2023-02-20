@@ -36,7 +36,7 @@ jobs:
           region: ${{ secrets.AWS_REGION }}
           table: deployment-tracking
           key: |
-            { key: "${{ inputs.image-tag }}" }
+            { image_tag: "${{ inputs.image-tag }}" }
             
       - name: Print item
         run: |
