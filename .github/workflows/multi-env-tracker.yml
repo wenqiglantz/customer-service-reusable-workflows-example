@@ -3,8 +3,8 @@ name: Multi-env deployment tracker
 on:
   workflow_dispatch:
     inputs:
-      image-tag:
-        description: 'Image tag'
+      repository:
+        description: 'Repository name'
         type: string
         required: true
 
@@ -36,7 +36,7 @@ jobs:
           region: ${{ secrets.AWS_REGION }}
           table: deployment-tracking
           key: |
-            { image_tag: "${{ inputs.image-tag }}" }
+            { repository: "${{ inputs.repository }}" }
             
       - name: Print item
         run: |
