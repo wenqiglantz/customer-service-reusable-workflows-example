@@ -18,5 +18,4 @@ jobs:
     with:
       # need to specify working-directory as that's where the terraform files live in the source code
       working-directory: ./terraform/secrets-manager
-      create-secret-flag: true
     secrets: inherit
