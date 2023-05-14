@@ -1,0 +1,26 @@
+name: CI workflow runs against RDS
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run the workflow against'
+        type: environment
+        required: true
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+        
+jobs:
+
+  build-and-test:
+    permissions:
+      id-token: write # need this for OIDC
+      contents: read
+    uses: wenqiglantz/reusable-workflows-modules/.github/workflows/java-maven-build-test-container-rds.yml@main
+    with:
+      env: ${{ github.event.inputs.environment }}
+      trufflehog-scan-flag: true
+    secrets: inherit
